@@ -1,295 +1,529 @@
-```html
-<!DOCTYPE html>
-<html lang="hi" class="h-full">
+!DOCTYPE html>
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechCart - कंप्यूटर एवं एक्सेसरीज स्टोर</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Font - Inter & Noto Sans Devanagari -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f0f7ff',
-                            100: '#e0effe',
-                            500: '#2563eb',
-                            600: '#1d4ed8',
-                            700: '#1e40af',
-                            800: '#1e3a8a',
-                            900: '#0f172a'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'Noto Sans Devanagari', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <title>TechCart - कंप्यूटर और एक्सेसरीज़ स्टोर</title>
     <style>
-        body { font-family: 'Inter', 'Noto Sans Devanagari', sans-serif; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* Header */
+        header { background-color: #0f172a; color: white; padding: 12px 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; items-center; }
+        .logo { font-size: 24px; font-weight: bold; cursor: pointer; color: #fff; }
+        .logo span { color: #38bdf8; }
+        .nav-btns { display: flex; gap: 10px; align-items: center; }
+        .btn { padding: 8px 16px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-cart { background-color: #2563eb; color: white; }
+        .btn-cart:hover { background-color: #1d4ed8; }
+        .btn-login { background-color: #334155; color: white; }
+        .btn-login:hover { background-color: #475569; }
+        .badge { background-color: #ef4444; color: white; padding: 2px 7px; border-radius: 50%; font-size: 12px; margin-left: 5px; }
+
+        /* Main Container */
+        main { max-width: 1200px; margin: 20px auto; padding: 0 15px; flex-grow: 1; width: 100%; }
+        
+        /* Banner & Category Filters */
+        .banner { background: linear-gradient(135deg, #1e40af, #3730a3); color: white; padding: 30px; border-radius: 12px; margin-bottom: 20px; }
+        .categories { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; }
+        .cat-btn { background: white; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 20px; cursor: pointer; white-space: nowrap; font-size: 14px; }
+        .cat-btn.active { background-color: #2563eb; color: white; border-color: #2563eb; }
+
+        /* Search Box */
+        .search-container { margin-bottom: 20px; display: flex; gap: 10px; }
+        .search-input { width: 100%; padding: 10px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; font-size: 15px; }
+
+        /* Product Grid */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .product-card { background: white; border-radius: 10px; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .product-card img { width: 100%; height: 180px; object-fit: cover; background-color: #f8fafc; }
+        .product-details { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; color: #1e293b; }
+        .product-price { font-size: 18px; font-weight: bold; color: #2563eb; margin-top: 10px; }
+        .add-cart-btn { background-color: #16a34a; color: white; width: 100%; padding: 8px; border: none; border-radius: 6px; margin-top: 10px; cursor: pointer; font-weight: bold; }
+        .add-cart-btn:hover { background-color: #15803d; }
+
+        /* Owner Dashboard */
+        .dashboard { background: white; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; }
+        .dash-header { display: flex; justify-content: space-between; items-center; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 20px; }
+        .tab-btn { padding: 10px 20px; border: none; background: none; font-size: 16px; font-weight: bold; cursor: pointer; color: #64748b; }
+        .tab-btn.active { color: #2563eb; border-bottom: 3px solid #2563eb; }
+
+        /* Multi-box generator */
+        .box-generator { background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px dashed #cbd5e1; margin-bottom: 20px; display: flex; gap: 10px; align-items: center; }
+        .bulk-box { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; margin-bottom: 15px; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; color: #475569; }
+        .form-control { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 14px; }
+        
+        /* Modal Backdrop */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; max-width: 450px; width: 90%; max-height: 90vh; overflow-y: auto; }
+        .close-btn { float: right; font-size: 20px; cursor: pointer; font-weight: bold; }
+
+        /* Order Cards */
+        .order-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+        .order-header { display: flex; justify-content: space-between; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px; margin-bottom: 8px; font-weight: bold; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+<body>
 
-    <!-- TOP NAVIGATION HEADER -->
-    <header class="bg-slate-900 text-white sticky top-0 z-40 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 gap-4">
-                
-                <!-- Logo -->
-                <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('store')">
-                    <div class="bg-blue-600 p-2.5 rounded-xl shadow-lg shadow-blue-500/30 flex items-center justify-center">
-                        <i class="fa-solid fa-desktop text-xl text-white"></i>
-                    </div>
-                    <div>
-                        <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">TechCart</span>
-                        <span class="text-xs text-slate-400 block -mt-1 hidden sm:block">कंप्यूटर हार्डवेयर व एक्सेसरीज</span>
-                    </div>
-                </div>
-
-                <!-- Search Bar (Desktop) -->
-                <div class="hidden md:flex flex-1 max-w-md mx-4">
-                    <div class="relative w-full">
-                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="प्रिंटर, मॉनिटर, कीबोर्ड, सीपीयू खोजें..." class="w-full bg-slate-800 text-white placeholder-slate-400 text-sm rounded-xl pl-10 pr-4 py-2 border border-slate-700 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- Action Controls (Cart & Admin Switch) -->
-                <div class="flex items-center gap-3">
-                    <!-- Customer View Active Controls -->
-                    <div id="customerNavControls" class="flex items-center gap-3">
-                        <button onclick="toggleCartModal()" class="relative p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors flex items-center gap-2">
-                            <i class="fa-solid fa-cart-shopping text-lg text-blue-400"></i>
-                            <span class="hidden sm:inline text-sm font-medium">कार्ट</span>
-                            <span id="cartCountBadge" class="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-xs font-bold rounded-full h-5 min-w-[20px] px-1 flex items-center justify-center border-2 border-slate-900">0</span>
-                        </button>
-                        
-                        <button onclick="openAdminLoginModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-xl text-sm font-medium transition-all shadow-md shadow-indigo-600/20 flex items-center gap-2">
-                            <i class="fa-solid fa-user-shield"></i>
-                            <span class="hidden sm:inline">ओनर लॉगिन</span>
-                        </button>
-                    </div>
-
-                    <!-- Admin View Active Controls -->
-                    <div id="adminNavControls" class="hidden flex items-center gap-3">
-                        <span class="bg-indigo-900/60 text-indigo-200 text-xs px-3 py-1.5 rounded-lg border border-indigo-700/50 flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            एडमिन मोड
-                        </span>
-                        <button onclick="switchView('store')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2 rounded-xl text-sm font-medium transition-colors flex items-center gap-2">
-                            <i class="fa-solid fa-store text-blue-400"></i>
-                            <span>स्टोर पर जाएं</span>
-                        </button>
-                        <button onclick="logoutAdmin()" class="bg-rose-600 hover:bg-rose-700 text-white p-2 sm:px-3 sm:py-2 rounded-xl text-sm font-medium transition-colors" title="लॉगआउट">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            <span class="hidden sm:inline ml-1.5">लॉगआउट</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mobile Search Bar -->
-            <div class="md:hidden pb-3">
-                <div class="relative w-full">
-                    <input type="text" id="mobileSearchInput" oninput="handleSearch(true)" placeholder="हार्डवेयर आइटम खोजें..." class="w-full bg-slate-800 text-white placeholder-slate-400 text-sm rounded-xl pl-10 pr-4 py-2 border border-slate-700 focus:outline-none focus:border-blue-500">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-sm"></i>
-                </div>
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <div class="logo" onclick="showCustomerView()">Tech<span>Cart</span></div>
+            <div class="nav-btns">
+                <button class="btn btn-cart" id="cartNavBtn" onclick="toggleCartModal()">
+                    🛒 कार्ट <span class="badge" id="cartCount">0</span>
+                </button>
+                <button class="btn btn-login" id="loginNavBtn" onclick="openLoginModal()">
+                    🔒 ओनर लॉगिन
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-
+    <main>
         <!-- ================= CUSTOMER STORE VIEW ================= -->
         <div id="customerView">
-            <!-- Hero Banner -->
-            <div class="relative bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl overflow-hidden shadow-xl mb-8 border border-slate-800 text-white p-6 sm:p-10">
-                <div class="relative z-10 max-w-2xl">
-                    <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-3 py-1 rounded-full border border-blue-400/30 uppercase tracking-wider inline-block mb-3">विशेष ऑफर और वारंटी</span>
-                    <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight mb-3">
-                        प्रीमियम कंप्यूटर हार्डवेयर और एक्सेसरीज
-                    </h1>
-                    <p class="text-slate-300 text-sm sm:text-base mb-6 leading-relaxed">
-                        प्रिंटर, 4K मॉनिटर, गेमिग कीबोर्ड, माउस, कस्टम सीपीयू बिल्ड और अन्य एक्सेसरीज पर बेहतरीन डील्स प्राप्त करें। त्वरित डिलीवरी उपलब्ध!
-                    </p>
-                    <div class="flex flex-wrap gap-3">
-                        <a href="#productListSection" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-lg shadow-blue-600/30">
-                            उत्पाद देखें <i class="fa-solid fa-arrow-down ml-1 text-xs"></i>
-                        </a>
-                        <button onclick="filterCategory('कीबोर्ड')" class="bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-700 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors">
-                            गेमिंग एक्सेसरीज
-                        </button>
-                    </div>
-                </div>
-                <!-- Background Decorative Icons -->
-                <i class="fa-solid fa-microchip absolute -right-10 -bottom-10 text-[180px] text-white/5 pointer-events-none"></i>
-                <i class="fa-solid fa-print absolute right-32 top-6 text-9xl text-white/5 pointer-events-none hidden lg:block"></i>
+            <div class="banner">
+                <h1>कंप्यूटर एवं एक्सेसरीज़ स्टोर</h1>
+                <p>प्रिंटर, मॉनिटर, कीबोर्ड, माउस और सीपीयू खरीदें आसान होम डिलीवरी के साथ।</p>
             </div>
 
-            <!-- Category Filter Bar -->
-            <div class="mb-8" id="productListSection">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-                        <i class="fa-solid fa-layer-group text-blue-600"></i>
-                        श्रेणियां (Categories)
-                    </h2>
-                    <span id="productCountBadge" class="text-xs font-medium bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full">0 आइटम्स</span>
-                </div>
-                
-                <div class="flex items-center gap-2 overflow-x-auto pb-2 custom-scrollbar no-scrollbar">
-                    <button onclick="filterCategory('all')" data-cat="all" class="cat-pill bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all shadow-sm">
-                        सब (All)
-                    </button>
-                    <button onclick="filterCategory('प्रिंटर')" data-cat="प्रिंटर" class="cat-pill bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all shadow-sm">
-                        <i class="fa-solid fa-print text-slate-400 mr-1.5"></i>प्रिंटर
-                    </button>
-                    <button onclick="filterCategory('मॉनिटर')" data-cat="मॉनिटर" class="cat-pill bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all shadow-sm">
-                        <i class="fa-solid fa-display text-slate-400 mr-1.5"></i>मॉनिटर
-                    </button>
-                    <button onclick="filterCategory('कीबोर्ड')" data-cat="कीबोर्ड" class="cat-pill bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all shadow-sm">
-                        <i class="fa-solid fa-keyboard text-slate-400 mr-1.5"></i>कीबोर्ड
-                    </button>
-                    <button onclick="filterCategory('माउस')" data-cat="माउस" class="cat-pill bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all shadow-sm">
-                        <i class="fa-solid fa-computer-mouse text-slate-400 mr-1.5"></i>माउस
-                    </button>
-                    <button onclick="filterCategory('सीपीयू')" data-cat="सीपीयू" class="cat-pill bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all shadow-sm">
-                        <i class="fa-solid fa-tower-cell text-slate-400 mr-1.5"></i>सीपीयू / कैबिनेट
-                    </button>
-                    <button onclick="filterCategory('एक्सेसरीज')" data-cat="एक्सेसरीज" class="cat-pill bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all shadow-sm">
-                        <i class="fa-solid fa-plug text-slate-400 mr-1.5"></i>अन्य एक्सेसरीज
-                    </button>
-                </div>
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" onkeyup="searchProducts()" placeholder="🔍 प्रोडक्ट खोजें (जैसे: मॉनिटर, कीबोर्ड, प्रिंटर)...">
             </div>
 
-            <!-- Product Cards Grid -->
-            <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <!-- Product items rendered dynamically -->
+            <!-- Category Filter Buttons -->
+            <div class="categories">
+                <button class="cat-btn active" onclick="filterCategory('All', this)">सभी (All)</button>
+                <button class="cat-btn" onclick="filterCategory('Printer', this)">प्रिंटर</button>
+                <button class="cat-btn" onclick="filterCategory('Monitor', this)">मॉनिटर</button>
+                <button class="cat-btn" onclick="filterCategory('CPU', this)">सीपीयू (CPU)</button>
+                <button class="cat-btn" onclick="filterCategory('Keyboard', this)">कीबोर्ड</button>
+                <button class="cat-btn" onclick="filterCategory('Mouse', this)">माउस</button>
+                <button class="cat-btn" onclick="filterCategory('Accessories', this)">एक्सेसरीज़</button>
             </div>
 
-            <!-- Empty Products View -->
-            <div id="emptyProductsView" class="hidden py-16 text-center bg-white rounded-3xl border border-slate-200 shadow-sm my-6">
-                <i class="fa-solid fa-box-open text-5xl text-slate-300 mb-3 block"></i>
-                <h3 class="text-lg font-bold text-slate-700">कोई उत्पाद नहीं मिला</h3>
-                <p class="text-sm text-slate-500 mt-1">कृपया अन्य श्रेणी चुनें या सर्च बदलें।</p>
-            </div>
+            <!-- Products Grid -->
+            <div id="productsGrid" class="products-grid"></div>
         </div>
 
-        <!-- ================= OWNER / ADMIN DASHBOARD VIEW ================= -->
-        <div id="adminView" class="hidden">
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <div>
-                    <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
-                        <i class="fa-solid fa-user-gear text-indigo-600"></i>
-                        ओनर कंट्रोल पैनल (Admin Dashboard)
-                    </h1>
-                    <p class="text-slate-500 text-sm mt-0.5">यहाँ से उत्पाद जोड़ें/हटाएं और कस्टमर ऑर्डर्स मैनेज करें।</p>
+        <!-- ================= OWNER DASHBOARD VIEW ================= -->
+        <div id="ownerView" style="display: none;">
+            <div class="dashboard">
+                <div class="dash-header">
+                    <h2>ओनर डैशबोर्ड (Admin Panel)</h2>
+                    <button class="btn" style="background:#ef4444; color:white;" onclick="logoutOwner()">लॉगआउट</button>
                 </div>
+
+                <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1;">
+                    <button class="tab-btn active" id="ordersTabBtn" onclick="switchAdminTab('orders')">📦 ऑर्डर्स (<span id="ordersCount">0</span>)</button>
+                    <button class="tab-btn" id="addTabBtn" onclick="switchAdminTab('add')">➕ नए प्रोडक्ट जोड़ें (200+ Box)</button>
+                </div>
+
+                <!-- ORDERS SECTION -->
+                <div id="adminOrdersSection">
+                    <div id="ordersContainer"></div>
+                </div>
+
+                <!-- MULTI-BOX PRODUCT ADD SECTION -->
+                <div id="adminAddSection" style="display: none;">
+                    <div class="box-generator">
+                        <label style="font-weight:bold;">बॉक्सेस की संख्या:</label>
+                        <input type="number" id="boxCountInput" value="3" min="1" max="200" class="form-control" style="width: 100px;">
+                        <button class="btn btn-cart" onclick="generateProductBoxes()">बॉक्सेस तैयार करें</button>
+                    </div>
+
+                    <form onsubmit="saveBulkProducts(event)">
+                        <div id="bulkBoxesContainer"></div>
+                        <button type="submit" class="btn" style="background:#16a34a; color:white; width:100%; padding:12px; font-size:16px;">
+                            🚀 सभी प्रोडक्ट्स पब्लिश करें
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= CART MODAL ================= -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleCartModal()">&times;</span>
+            <h3 style="margin-bottom:15px;">🛒 आपकी कार्ट</h3>
+            <div id="cartItemsList" style="max-height: 200px; overflow-y: auto; margin-bottom: 15px;"></div>
+            
+            <div style="font-weight:bold; font-size:18px; margin-bottom:15px; border-top:1px solid #ccc; padding-top:10px;">
+                कुल राशि: <span id="cartTotal" style="color:#2563eb;">₹0</span>
+            </div>
+
+            <!-- CHECKOUT FORM -->
+            <form onsubmit="processOrder(event)">
+                <h4 style="margin-bottom:10px; font-size:14px; color:#334155;">सत्यापन एवं डिलीवरी विवरण (*अनिवार्य)</h4>
                 
-                <!-- Admin Tabs -->
-                <div class="flex bg-slate-100 p-1.5 rounded-2xl w-full md:w-auto border border-slate-200">
-                    <button onclick="switchAdminTab('stats')" id="tabBtnStats" class="admin-tab-btn flex-1 md:flex-initial px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-chart-pie text-indigo-500"></i>
-                        <span>सेल्स स्टेट्स</span>
-                    </button>
-                    <button onclick="switchAdminTab('products')" id="tabBtnProducts" class="admin-tab-btn flex-1 md:flex-initial px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-boxes-stacked text-blue-500"></i>
-                        <span>प्रोडक्ट मैनेजमेंट</span>
-                    </button>
-                    <button onclick="switchAdminTab('orders')" id="tabBtnOrders" class="admin-tab-btn flex-1 md:flex-initial px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all flex items-center justify-center gap-2 relative">
-                        <i class="fa-solid fa-truck-fast text-emerald-500"></i>
-                        <span>ऑर्डर्स</span>
-                        <span id="pendingOrdersBadge" class="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
-                    </button>
+                <div class="form-group">
+                    <label>पूरा नाम *</label>
+                    <input type="text" id="custName" required class="form-control" placeholder="नाम">
                 </div>
-            </div>
-
-            <!-- TAB 1: SALES & ANALYTICS STATS -->
-            <div id="adminTabStats" class="admin-tab-content space-y-6">
-                <!-- Stats Overview Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex items-center gap-4">
-                        <div class="p-4 bg-emerald-50 text-emerald-600 rounded-2xl">
-                            <i class="fa-solid fa-indian-rupee-sign text-2xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">कुल बिक्री (Total Revenue)</p>
-                            <h3 class="text-2xl font-bold text-slate-900 mt-0.5" id="statTotalRevenue">₹0</h3>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex items-center gap-4">
-                        <div class="p-4 bg-blue-50 text-blue-600 rounded-2xl">
-                            <i class="fa-solid fa-cart-check text-2xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">कुल ऑर्डर्स (Total Orders)</p>
-                            <h3 class="text-2xl font-bold text-slate-900 mt-0.5" id="statTotalOrders">0</h3>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex items-center gap-4">
-                        <div class="p-4 bg-amber-50 text-amber-600 rounded-2xl">
-                            <i class="fa-solid fa-clock text-2xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">पेंडिंग ऑर्डर्स</p>
-                            <h3 class="text-2xl font-bold text-slate-900 mt-0.5" id="statPendingOrders">0</h3>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex items-center gap-4">
-                        <div class="p-4 bg-purple-50 text-purple-600 rounded-2xl">
-                            <i class="fa-solid fa-box text-2xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">उपलब्ध प्रोडक्ट्स</p>
-                            <h3 class="text-2xl font-bold text-slate-900 mt-0.5" id="statTotalProducts">0</h3>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label>मोबाइल नंबर *</label>
+                    <input type="tel" id="custPhone" required pattern="[0-9]{10}" class="form-control" placeholder="10-अंकीय नंबर">
+                </div>
+                <div class="form-group">
+                    <label>दूसरा मोबाइल नंबर (Compulsory) *</label>
+                    <input type="tel" id="custAltPhone" required pattern="[0-9]{10}" class="form-control" placeholder="अल्टरनेट नंबर">
+                </div>
+                <div class="form-group">
+                    <label>ईमेल आईडी *</label>
+                    <input type="email" id="custEmail" required class="form-control" placeholder="example@mail.com">
+                </div>
+                <div class="form-group">
+                    <label>पूरा पता *</label>
+                    <textarea id="custAddress" required class="form-control" rows="2" placeholder="मकान नं, गली, पिनकोड..."></textarea>
+                </div>
+                <div class="form-group" style="background:#eff6ff; padding:10px; border-radius:6px;">
+                    <label style="color:#1e40af;">GPS लाइव लोकेशन शेयर करें *</label>
+                    <button type="button" onclick="getGPSLocation()" id="gpsBtn" class="btn btn-cart" style="width:100%; margin-top:5px; font-size:12px;">📍 लोकेशन कैप्चर करें</button>
+                    <input type="hidden" id="custGPS" required>
+                </div>
+                <div class="form-group" style="background:#fffbeb; padding:10px; border-radius:6px;">
+                    <label style="color:#b45309;">पहचान पत्र (ID Proof) *</label>
+                    <select id="custIdType" class="form-control" style="margin-bottom:5px;">
+                        <option value="Aadhaar Card">आधार कार्ड</option>
+                        <option value="Voter ID Card">वोटर आईडी कार्ड</option>
+                    </select>
+                    <input type="file" id="custIdFile" accept="image/*,.pdf" required class="form-control">
                 </div>
 
-                <!-- Recent Orders Preview Card -->
-                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center justify-between">
-                        <span><i class="fa-solid fa-clock-rotate-left text-blue-600 mr-2"></i>हाल के ऑर्डर्स</span>
-                        <button onclick="switchAdminTab('orders')" class="text-xs font-semibold text-blue-600 hover:text-blue-800">सब देखें &rarr;</button>
-                    </h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-slate-600">
-                            <thead class="bg-slate-50 text-slate-700 text-xs uppercase rounded-xl">
-                                <tr>
-                                    <th class="p-3">ऑर्डर ID</th>
-                                    <th class="p-3">ग्राहक का नाम</th>
-                                    <th class="p-3">फोन नंबर</th>
-                                    <th class="p-3">रकम</th>
-                                    <th class="p-3">स्थिति</th>
-                                </tr>
-                            </thead>
-                            <tbody id="recentOrdersTableBody">
-                                <!-- Rendered dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+                <button type="submit" class="btn" style="background:#16a34a; color:white; width:100%; padding:10px;">ऑर्डर कन्फर्म करें</button>
+            </form>
+        </div>
+    </div>
 
-            <!-- TAB 2: PRODUCT MANAGEMENT -->
-            <div id="adminTabProducts" class="admin-tab-content space-y-6 hidden">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- Add/Edit Product Form -->
-                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm h-fit">
-                        <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center justify-between"
+    <!-- ================= LOGIN MODAL ================= -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content" style="max-width:350px;">
+            <span class="close-btn" onclick="closeLoginModal()">&times;</span>
+            <h3 style="margin-bottom:10px; text-align:center;">🔒 ओनर लॉगिन</h3>
+            <p style="font-size:12px; color:#64748b; text-align:center; margin-bottom:15px;">पासवर्ड: <b>admin123</b></p>
+            
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>पासवर्ड दर्ज करें</label>
+                    <input type="password" id="adminPass" required class="form-control" placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-cart" style="width:100%;">लॉगिन करें</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Core Logic -->
+    <script>
+        // Store Products Database
+        let products = [
+            { id: 1, name: "HP LaserJet Pro M126a प्रिंटर", category: "Printer", price: 16499, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=400", desc: "मल्टी-फंक्शन लेजर प्रिंटर" },
+            { id: 2, name: "Dell 24 inch Full HD मॉनिटर", category: "Monitor", price: 9999, image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400", desc: "IPS पैनल 75Hz" },
+            { id: 3, name: "Intel i5 गेमिग CPU Cabinet", category: "CPU", price: 34999, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400", desc: "16GB RAM, RGB Cabinet" },
+            { id: 4, name: "Logitech Wireless कीबोर्ड और माउस", category: "Keyboard", price: 1499, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400", desc: "2.4GHz वायरलेस कॉम्बो" },
+            { id: 5, name: "RGB गेमिंग माउस", category: "Mouse", price: 699, image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400", desc: "High DPI Sensor" }
+        ];
+
+        let cart = [];
+        let orders = [];
+        let currentCategory = 'All';
+
+        // Initialize App
+        window.onload = function() {
+            let savedProd = localStorage.getItem('tc_products');
+            if(savedProd) products = JSON.parse(savedProd);
+            
+            let savedOrd = localStorage.getItem('tc_orders');
+            if(savedOrd) orders = JSON.parse(savedOrd);
+
+            renderProducts(products);
+            generateProductBoxes(3);
+        };
+
+        // Render Products
+        function renderProducts(list) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            if(list.length === 0) {
+                grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#64748b; padding:20px;">कोई प्रोडक्ट नहीं मिला।</p>';
+                return;
+            }
+
+            list.forEach(p => {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <img src="${p.image}" alt="${p.name}">
+                        <div class="product-details">
+                            <div>
+                                <span style="font-size:10px; background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:10px; font-weight:bold;">${p.category}</span>
+                                <div class="product-title">${p.name}</div>
+                                <div style="font-size:12px; color:#64748b;">${p.desc || ''}</div>
+                            </div>
+                            <div>
+                                <div class="product-price">₹${p.price.toLocaleString()}</div>
+                                <button class="add-cart-btn" onclick="addToCart(${p.id})">+ कार्ट में जोड़ें</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Category Filter
+        function filterCategory(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            let filtered = cat === 'All' ? products : products.filter(p => p.category === cat);
+            renderProducts(filtered);
+        }
+
+        // Search Functionality
+        function searchProducts() {
+            let q = document.getElementById('searchInput').value.toLowerCase();
+            let filtered = products.filter(p => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+            renderProducts(filtered);
+        }
+
+        // Cart Logic
+        function addToCart(id) {
+            let item = cart.find(c => c.id === id);
+            if(item) {
+                item.qty++;
+            } else {
+                let p = products.find(x => x.id === id);
+                cart.push({ ...p, qty: 1 });
+            }
+            updateCart();
+            alert("उत्पाद कार्ट में जोड़ दिया गया है!");
+        }
+
+        function updateCart() {
+            document.getElementById('cartCount').innerText = cart.reduce((s, i) => s + i.qty, 0);
+            let list = document.getElementById('cartItemsList');
+            list.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                total += item.price * item.qty;
+                list.innerHTML += `
+                    <div style="display:flex; justify-between; align-items:center; margin-bottom:8px; font-size:13px; border-bottom:1px solid #f1f5f9; padding-bottom:5px;">
+                        <div>
+                            <b>${item.name}</b><br>
+                            ₹${item.price} x ${item.qty}
+                        </div>
+                        <div>
+                            <button onclick="changeQty(${item.id}, -1)" style="padding:2px 6px;">-</button>
+                            <button onclick="changeQty(${item.id}, 1)" style="padding:2px 6px;">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('cartTotal').innerText = '₹' + total.toLocaleString();
+        }
+
+        function changeQty(id, amt) {
+            let item = cart.find(c => c.id === id);
+            if(item) {
+                item.qty += amt;
+                if(item.qty <= 0) cart = cart.filter(c => c.id !== id);
+            }
+            updateCart();
+        }
+
+        function toggleCartModal() {
+            let m = document.getElementById('cartModal');
+            m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // GPS Location
+        function getGPSLocation() {
+            if(!navigator.geolocation) { alert("GPS सपोर्ट नहीं है।"); return; }
+            let btn = document.getElementById('gpsBtn');
+            btn.innerText = "लोकेशन ली जा रही है...";
+            
+            navigator.geolocation.getCurrentPosition(pos => {
+                document.getElementById('custGPS').value = `https://maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                btn.innerText = "✓ लोकेशन कैप्चर हो गई";
+                btn.style.background = "#16a34a";
+            }, () => {
+                alert("लोकेशन एक्सेस नहीं मिल सका।");
+                btn.innerText = "पुनः प्रयास करें";
+            });
+        }
+
+        // Order Process
+        function processOrder(e) {
+            e.preventDefault();
+            if(cart.length === 0) { alert("कार्ट खाली है!"); return; }
+            if(!document.getElementById('custGPS').value) { alert("कृपया GPS लोकेशन कैप्चर करें!"); return; }
+
+            let fileInput = document.getElementById('custIdFile');
+            let reader = new FileReader();
+
+            reader.onload = function(evt) {
+                let newOrder = {
+                    id: 'ORD-' + Math.floor(100000 + Math.random()*900000),
+                    date: new Date().toLocaleString('hi-IN'),
+                    name: document.getElementById('custName').value,
+                    phone: document.getElementById('custPhone').value,
+                    altPhone: document.getElementById('custAltPhone').value,
+                    email: document.getElementById('custEmail').value,
+                    address: document.getElementById('custAddress').value,
+                    gps: document.getElementById('custGPS').value,
+                    idType: document.getElementById('custIdType').value,
+                    idData: evt.target.result,
+                    items: [...cart],
+                    total: cart.reduce((s, i) => s + (i.price*i.qty), 0),
+                    status: 'Pending'
+                };
+
+                orders.unshift(newOrder);
+                localStorage.setItem('tc_orders', JSON.stringify(orders));
+                alert(`🎉 आपका ऑर्डर सबमिट हो गया है!\nऑर्डर ID: ${newOrder.id}`);
+                
+                cart = [];
+                updateCart();
+                toggleCartModal();
+                renderAdminOrders();
+            };
+
+            if(fileInput.files[0]) reader.readAsDataURL(fileInput.files[0]);
+        }
+
+        // Admin Auth
+        function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
+        function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            if(document.getElementById('adminPass').value === 'admin123') {
+                closeLoginModal();
+                document.getElementById('customerView').style.display = 'none';
+                document.getElementById('ownerView').style.display = 'block';
+                renderAdminOrders();
+            } else {
+                alert("गलत पासवर्ड!");
+            }
+        }
+
+        function logoutOwner() {
+            document.getElementById('ownerView').style.display = 'none';
+            document.getElementById('customerView').style.display = 'block';
+        }
+
+        function switchAdminTab(tab) {
+            if(tab === 'orders') {
+                document.getElementById('adminOrdersSection').style.display = 'block';
+                document.getElementById('adminAddSection').style.display = 'none';
+                document.getElementById('ordersTabBtn').classList.add('active');
+                document.getElementById('addTabBtn').classList.remove('active');
+            } else {
+                document.getElementById('adminOrdersSection').style.display = 'none';
+                document.getElementById('adminAddSection').style.display = 'block';
+                document.getElementById('addTabBtn').classList.add('active');
+                document.getElementById('ordersTabBtn').classList.remove('active');
+            }
+        }
+
+        // Render Admin Orders
+        function renderAdminOrders() {
+            document.getElementById('ordersCount').innerText = orders.length;
+            let c = document.getElementById('ordersContainer');
+            c.innerHTML = '';
+
+            if(orders.length === 0) {
+                c.innerHTML = '<p style="text-align:center; color:#64748b;">कोई नया ऑर्डर नहीं है।</p>';
+                return;
+            }
+
+            orders.forEach(o => {
+                c.innerHTML += `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <span>ID: ${o.id}</span>
+                            <span style="color:#2563eb;">₹${o.total.toLocaleString()}</span>
+                        </div>
+                        <p style="font-size:13px;"><b>नाम:</b> ${o.name} | <b>फ़ोन:</b> ${o.phone} | <b>अल्टरनेट:</b> ${o.altPhone}</p>
+                        <p style="font-size:13px;"><b>ईमेल:</b> ${o.email}</p>
+                        <p style="font-size:13px;"><b>पता:</b> ${o.address}</p>
+                        <p style="font-size:12px; margin-top:5px;">
+                            📍 <a href="${o.gps}" target="_blank" style="color:#dc2626; font-weight:bold;">Google Maps पर लोकेशन खोलें</a>
+                        </p>
+                        <p style="font-size:12px; margin-top:5px;">
+                            🪪 <b>${o.idType}:</b> <a href="${o.idData}" download="${o.id}_id" style="color:#0284c7; font-weight:bold;">डाउनलोड करें</a>
+                        </p>
+                    </div>
+                `;
+            });
+        }
+
+        // Multi-Box Generator
+        function generateProductBoxes() {
+            let count = parseInt(document.getElementById('boxCountInput').value) || 1;
+            let c = document.getElementById('bulkBoxesContainer');
+            c.innerHTML = '';
+
+            for(let i = 1; i <= count; i++) {
+                c.innerHTML += `
+                    <div class="bulk-box">
+                        <h4 style="margin-bottom:8px;">उत्पाद #${i}</h4>
+                        <div class="form-group"><label>नाम *</label><input type="text" id="pName_${i}" required class="form-control" placeholder="उदा: Dell Monitor"></div>
+                        <div class="form-group">
+                            <label>श्रेणी *</label>
+                            <select id="pCat_${i}" class="form-control">
+                                <option value="Printer">प्रिंटर</option>
+                                <option value="Monitor">मॉनिटर</option>
+                                <option value="CPU">सीपीयू</option>
+                                <option value="Keyboard">कीबोर्ड</option>
+                                <option value="Mouse">माउस</option>
+                                <option value="Accessories">एक्सेसरीज़</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>कीमत (₹) *</label><input type="number" id="pPrice_${i}" required class="form-control" placeholder="999"></div>
+                        <div class="form-group"><label>इमेज थंबनेल URL</label><input type="url" id="pImg_${i}" class="form-control" placeholder="https://..."></div>
+                    </div>
+                `;
+            }
+        }
+
+        function saveBulkProducts(e) {
+            e.preventDefault();
+            let count = document.getElementById('bulkBoxesContainer').children.length;
+
+            for(let i = 1; i <= count; i++) {
+                let name = document.getElementById(`pName_${i}`).value;
+                let price = parseFloat(document.getElementById(`pPrice_${i}`).value);
+                let cat = document.getElementById(`pCat_${i}`).value;
+                let img = document.getElementById(`pImg_${i}`).value || "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400";
+
+                if(name && price) {
+                    products.unshift({
+                        id: Date.now() + i,
+                        name: name,
+                        category: cat,
+                        price: price,
+                        image: img,
+                        desc: "स्टोर उत्पाद"
+                    });
+                }
+            }
+
+            localStorage.setItem('tc_products', JSON.stringify(products));
+            alert("सभी नए प्रोडक्ट्स पब्लिश कर दिए गए हैं!");
+            renderProducts(products);
+            logoutOwner();
+        }
+    </script>
+</body>
+</html>
+
